@@ -5,6 +5,10 @@ defmodule OpenuniApi.ErrorView do
     %{code: 404, message: "Page not found"}
   end
 
+  def render("401.json", _assigns) do
+    %{code: 401, message: "Unauthorized"}
+  end
+
   def render("500.json", _assigns) do
     %{code: 500, message: "Internal server error"}
   end

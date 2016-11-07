@@ -19,7 +19,7 @@ defmodule OpenuniApi.Mixfile do
   def application do
     [mod: {OpenuniApi, []},
      applications: [:phoenix, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -35,6 +35,9 @@ defmodule OpenuniApi.Mixfile do
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.11"},
+     {:cors_plug, "~> 1.1"},
+     {:comeonin, "~> 2.0"},
+     {:secure_random, "~> 0.5"},
      {:cowboy, "~> 1.0"}]
   end
 

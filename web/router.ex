@@ -9,5 +9,8 @@ defmodule OpenuniApi.Router do
     pipe_through :api # Use the default api stack
 
     get "/", PageController, :index
+
+    resources "/users", UserController, only: [:create]
+    resources "/sessions", SessionController, only: [:create]
   end
 end
