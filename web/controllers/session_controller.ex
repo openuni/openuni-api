@@ -5,6 +5,10 @@ defmodule OpenuniApi.SessionController do
 
   alias OpenuniApi.User
   alias OpenuniApi.Session
+  
+  
+  plug OpenuniApi.Plug.Authenticate when action in [:delete]
+  
 
   def create(conn, %{"user" => user_params}) do
     user = Repo.get_by(User, email: user_params["email"])
@@ -13,8 +17,9 @@ defmodule OpenuniApi.SessionController do
         session_changeset = Session.registration_changeset(%Session{}, %{user_id: user.id})
         {:ok, session} = Repo.insert(session_changeset)
         conn
-        |> put_status(:created)
-        |> render("show.json", session: session)
+          |> put_status(:created)
+          |> assign(:session, session)
+          |> render("show.json", session: session)
       user ->
         conn
           |> put_status(:unauthorized)
@@ -27,13 +32,14 @@ defmodule OpenuniApi.SessionController do
     end
   end
 
-  def delete(conn) do
+  def delete(conn, _params) do
     session = Session.get_session(conn)
 
     if session != nil do
       Repo.delete!(session)
       conn
-        |> put_status(204)
+        |> put_status(:no_content) 
+        |> text("")
         |> halt
     else
       conn

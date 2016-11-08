@@ -27,13 +27,10 @@ defmodule OpenuniApi.SessionControllerTest do
     assert json_response(conn, 401)["errors"] != %{}
   end
 
-  """
-  TODO get id from session to delete
-
   test "deletes session when data is valid", %{conn: conn} do
-    conn = post conn, session_path(conn, :create), user: @valid_attrs
-    conn = post conn, session_path(conn, :delete, 10), user: @valid_attrs
-    assert json_response(conn, 204)
+    post conn, session_path(conn, :create), user: @valid_attrs
+    
+    delete_conn = post conn, session_path(conn, :delete), user: @valid_attrs
+    assert json_response(delete_conn, 204)
   end
-  """
 end
