@@ -5,10 +5,10 @@ defmodule OpenuniApi.SessionController do
 
   alias OpenuniApi.User
   alias OpenuniApi.Session
-  
-  
+
+
   plug OpenuniApi.Plug.Authenticate when action in [:delete]
-  
+
 
   def create(conn, %{"user" => user_params}) do
     user = Repo.get_by(User, email: user_params["email"])
@@ -38,8 +38,8 @@ defmodule OpenuniApi.SessionController do
     if session != nil do
       Repo.delete!(session)
       conn
-        |> put_status(:no_content) 
-        |> text("")
+        |> put_status(:no_content)
+        |> json("")
         |> halt
     else
       conn
