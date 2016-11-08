@@ -1,4 +1,5 @@
 defmodule OpenuniApi.Session do
+  use Phoenix.Controller
   use OpenuniApi.Web, :model
 
   schema "sessions" do
@@ -26,5 +27,14 @@ defmodule OpenuniApi.Session do
     model
       |> changeset(params)
       |> put_change(:token, SecureRandom.urlsafe_base64())
+  end
+
+  def get_session(conn) do
+    case get_req_header(conn, "x-openuni-user.session_token") do
+      [token] ->
+          OpenuniApi.Repo.get_by(OpenuniApi.Session, token: token)
+      _ ->
+        nil
+    end
   end
 end

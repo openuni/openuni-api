@@ -11,6 +11,6 @@ defmodule OpenuniApi.Router do
     get "/", PageController, :index
 
     resources "/users", UserController, only: [:create]
-    resources "/sessions", SessionController, only: [:create]
+    resources "/sessions", SessionController, only: [:create, :delete]
   end
 end

@@ -26,4 +26,19 @@ defmodule OpenuniApi.SessionController do
           |> render("error.json", user_params)
     end
   end
+
+  def delete(conn) do
+    session = Session.get_session(conn)
+
+    if session != nil do
+      Repo.delete!(session)
+      conn
+        |> put_status(204)
+        |> halt
+    else
+      conn
+        |> put_status(:unauthorized)
+        |> render("401.json")
+    end
+  end
 end
