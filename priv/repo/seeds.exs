@@ -11,13 +11,9 @@
 # and so on) as they will fail if something goes wrong.
 
 
-user = OpenuniApi.Repo.insert!(OpenuniApi.User.registration_changeset(%OpenuniApi.User{}, %{
+OpenuniApi.Repo.insert!(OpenuniApi.User.registration_changeset(%OpenuniApi.User{}, %{
+  email: "example@domain.com",
+  password: "password",
   confirmed: true,
-  email: "email@domain.com",
-  password: "s3cr3t"
+  confirmation_token: nil
 }))
-
-OpenuniApi.Email.confirmation_html_email(%{
-  email: user.email,
-  token: user.confirmation_token
-}) |> OpenuniApi.Mailer.deliver_now

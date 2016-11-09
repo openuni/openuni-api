@@ -23,7 +23,7 @@ defmodule OpenuniApi.User do
   def registration_changeset(model, params \\ :empty) do
     model
       |> changeset(params)
-      |> cast(params, ~w(password), [])
+      |> cast(params, ~w(password), ~w(confirmed confirmation_token))
       |> validate_length(:password, min: 6)
       |> put_change(:confirmation_token, SecureRandom.urlsafe_base64())
       |> put_password_hash
