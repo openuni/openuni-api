@@ -3,8 +3,10 @@ defmodule OpenuniApi.SessionView do
 
   def render("show.json", %{session: session, user: user}) do
     %{user: %{
-      email: Map.get(user, :email),
-      token: Map.get(session, :token)
+      id: user.id,
+      email: user.email,
+      confirmed: user.confirmed,
+      token: session.token
     }}
   end
 
@@ -13,6 +15,6 @@ defmodule OpenuniApi.SessionView do
   end
 
   def render("error.json", _anything) do
-    %{errors: "failed to authenticate"}
+    %{errors: "Failed to authenticate"}
   end
 end

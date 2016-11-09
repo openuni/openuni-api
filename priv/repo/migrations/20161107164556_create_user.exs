@@ -4,6 +4,10 @@ defmodule OpenuniApi.Repo.Migrations.CreateUser do
   def change do
     create table(:users) do
       add :email, :string, null: false
+
+      add :confirmed, :boolean, default: false
+      add :confirmation_token, :string
+
       add :password_hash, :string
 
       timestamps

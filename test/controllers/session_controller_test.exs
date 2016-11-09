@@ -31,9 +31,22 @@ defmodule OpenuniApi.SessionControllerTest do
     create_conn = post conn, session_path(conn, :create), user: @valid_attrs
 
     session = create_conn.assigns[:session]
-    conn = put_req_header(conn, "x-openuni-user.token", Map.get(session, :token))
+    conn = put_req_header(conn, "x-openuni-user.token", session.token)
 
     delete_conn = delete conn, session_path(conn, :delete), user: @valid_attrs
     assert json_response(delete_conn, 204)
+  end
+
+  test "gets session from token if valid data", %{conn: conn} do
+    create_conn = post conn, session_path(conn, :create), user: @valid_attrs
+
+    session = create_conn.assigns[:session]
+    conn = put_req_header(conn, "x-openuni-user.token", session.token)
+
+    new_conn = get conn, session_path(conn, :create_from_token)
+
+    token = json_response(new_conn, 200)["user"]["token"]
+    assert Repo.get_by(Session, token: token)
+    assert json_response(new_conn, 200)
   end
 end

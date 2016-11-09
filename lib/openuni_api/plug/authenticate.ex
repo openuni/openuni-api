@@ -12,7 +12,7 @@ defmodule OpenuniApi.Plug.Authenticate do
     session = Session.get_session(conn)
 
     if session != nil do
-      current_user = Repo.get_by(User, id: Map.get(session, :user_id))
+      current_user = Repo.get_by(User, id: session.user_id)
       assign(conn, :current_user, current_user)
     else
       conn

@@ -25,3 +25,16 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+
+{smtp_port, _} = Integer.parse(System.get_env("SMTP_PORT"))
+
+config :openuni_api, OpenuniApi.Mailer,
+  adapter: Bamboo.SMTPAdapter,
+  server: System.get_env("SMTP_SERVER"),
+  port: smtp_port,
+  username: System.get_env("SMTP_USERNAME"),
+  password: System.get_env("SMTP_PASSWORD"),
+  tls: :if_available, # can be `:always` or `:never`
+  ssl: false, # can be `true`
+  retries: 1

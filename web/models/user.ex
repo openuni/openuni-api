@@ -3,6 +3,10 @@ defmodule OpenuniApi.User do
 
   schema "users" do
     field :email, :string
+
+    field :confirmed, :boolean, default: false
+    field :confirmation_token, :string
+
     field :password_hash, :string
     field :password, :string, virtual: true
 
@@ -21,6 +25,7 @@ defmodule OpenuniApi.User do
       |> changeset(params)
       |> cast(params, ~w(password), [])
       |> validate_length(:password, min: 6)
+      |> put_change(:confirmation_token, SecureRandom.urlsafe_base64())
       |> put_password_hash
   end
 

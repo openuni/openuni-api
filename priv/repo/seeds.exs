@@ -12,6 +12,7 @@
 
 
 OpenuniApi.Repo.insert!(OpenuniApi.User.registration_changeset(%OpenuniApi.User{}, %{
+  confirmed: true,
   email: "email@domain.com",
   password: "s3cr3t"
 }))

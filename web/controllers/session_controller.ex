@@ -7,7 +7,7 @@ defmodule OpenuniApi.SessionController do
   alias OpenuniApi.Session
 
 
-  plug OpenuniApi.Plug.Authenticate when action in [:delete]
+  plug OpenuniApi.Plug.Authenticate when action in [:delete, :create_from_token]
 
 
   def create(conn, %{"user" => user_params}) do
@@ -32,6 +32,27 @@ defmodule OpenuniApi.SessionController do
     end
   end
 
+  def create_from_token(conn, _params) do
+    session = Session.get_session(conn)
+
+    if session != nil do
+      user = Repo.get_by(User, id: session.user_id)
+      if user != nil do
+        conn
+          |> assign(:session, session)
+          |> render("show.json", session: session, user: user)
+      else
+        conn
+          |> put_status(:unauthorized)
+          |> render("error.json")
+      end
+    else
+      conn
+        |> put_status(:unauthorized)
+        |> render("error.json")
+    end
+  end
+
   def delete(conn, _params) do
     session = Session.get_session(conn)
 
@@ -44,7 +65,7 @@ defmodule OpenuniApi.SessionController do
     else
       conn
         |> put_status(:unauthorized)
-        |> render("401.json")
+        |> render("error.json")
     end
   end
 end
