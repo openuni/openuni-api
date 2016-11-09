@@ -37,6 +37,10 @@ defmodule OpenuniApi.UserControllerTest do
 
     conn = post conn, user_path(conn, :confirm, user.confirmation_token), %{}
     assert json_response(conn, 204)
+
+    confirmed_user = Repo.get_by!(User, id: user.id)
+    assert confirmed_user.confirmed == true
+    assert confirmed_user.confirmation_token == nil
   end
 
   test "resends confirmation token email", %{conn: conn} do

@@ -33,27 +33,34 @@ defmodule OpenuniApi.UserController do
   def confirm(conn, %{"token" => token}) do
     user = conn.assigns[:current_user]
 
-    if user.confirmation_token == token do
-      changeset = User.changeset(user, %{
-        confirmed: true,
-        confirmation_token: nil
-      })
-
-      case Repo.update(changeset) do
-        {:ok, _user} ->
-          conn
-            |> put_status(:no_content)
-            |> json("")
-            |> halt
-        {:error, changeset} ->
-          conn
-            |> put_status(:unprocessable_entity)
-            |> render(OpenuniApi.ChangesetView, "error.json", changeset: changeset)
-      end
-    else
+    if user.confirmed do
       conn
-        |> put_status(:unauthorized)
-        |> render("error.json")
+        |> put_status(:no_content)
+        |> json("")
+        |> halt
+    else
+      if user.confirmation_token == token do
+        changeset = User.changeset(user, %{
+          confirmed: true,
+          confirmation_token: nil
+        })
+
+        case Repo.update(changeset) do
+          {:ok, _user} ->
+            conn
+              |> put_status(:no_content)
+              |> json("")
+              |> halt
+          {:error, changeset} ->
+            conn
+              |> put_status(:unprocessable_entity)
+              |> render(OpenuniApi.ChangesetView, "error.json", changeset: changeset)
+        end
+      else
+        conn
+          |> put_status(:unauthorized)
+          |> render("error.json")
+      end
     end
   end
 

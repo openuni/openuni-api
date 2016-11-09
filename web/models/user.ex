@@ -15,7 +15,7 @@ defmodule OpenuniApi.User do
 
   def changeset(model, params \\ :empty) do
     model
-      |> cast(params, ~w(email), [])
+      |> cast(params, ~w(email), ~w(confirmed confirmation_token))
       |> validate_length(:email, min: 1, max: 255)
       |> validate_format(:email, ~r/@/)
   end
