@@ -13,7 +13,7 @@ defmodule OpenuniApi.SessionControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, session_path(conn, :create), user: @valid_attrs
-    token = json_response(conn, 201)["data"]["token"]
+    token = json_response(conn, 201)["user"]["token"]
     assert Repo.get_by(Session, token: token)
   end
 
@@ -31,7 +31,7 @@ defmodule OpenuniApi.SessionControllerTest do
     create_conn = post conn, session_path(conn, :create), user: @valid_attrs
 
     session = create_conn.assigns[:session]
-    conn = put_req_header(conn, "x-openuni-user.session_token", Map.get(session, :token))
+    conn = put_req_header(conn, "x-openuni-user.token", Map.get(session, :token))
 
     delete_conn = delete conn, session_path(conn, :delete), user: @valid_attrs
     assert json_response(delete_conn, 204)

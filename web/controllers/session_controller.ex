@@ -19,7 +19,7 @@ defmodule OpenuniApi.SessionController do
         conn
           |> put_status(:created)
           |> assign(:session, session)
-          |> render("show.json", session: session)
+          |> render("show.json", session: session, user: user)
       user ->
         conn
           |> put_status(:unauthorized)

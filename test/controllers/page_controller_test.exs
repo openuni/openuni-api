@@ -15,7 +15,7 @@ defmodule OpenuniApi.PageControllerTest do
 
     {:ok, conn: conn
       |> put_req_header("accept", "application/json")
-      |> put_req_header("x-openuni-user.session_token", Map.get(session, :token))}
+      |> put_req_header("x-openuni-user.token", Map.get(session, :token))}
   end
 
   test "GET /", %{conn: conn} do

@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+
+OpenuniApi.Repo.insert!(OpenuniApi.User.registration_changeset(%OpenuniApi.User{}, %{
+  email: "email@domain.com",
+  password: "s3cr3t"
+}))

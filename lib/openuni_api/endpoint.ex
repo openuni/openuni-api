@@ -3,7 +3,7 @@ defmodule OpenuniApi.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Logger
-  plug CORSPlug
+  plug CORSPlug, origins: ["*"], headers: ["*"]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

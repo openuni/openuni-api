@@ -30,7 +30,7 @@ defmodule OpenuniApi.Session do
   end
 
   def get_session(conn) do
-    case get_req_header(conn, "x-openuni-user.session_token") do
+    case get_req_header(conn, "x-openuni-user.token") do
       [token] ->
           OpenuniApi.Repo.get_by(OpenuniApi.Session, token: token)
       _ ->
