@@ -7,9 +7,18 @@ To start your Phoenix app:
   * Run seed files `mix run priv/repo/seeds.exs`
   * Start Phoenix endpoint with `mix phoenix.server`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+
+##  envrc
+
+an SMTP server is required to send emails, I'm using [FakeSMTP](https://nilhcem.github.io/FakeSMTP/)
+
+```bash
+export SMTP_SERVER="localhost"
+export SMTP_PORT=1025
+export SMTP_USERNAME=""
+export SMTP_PASSWORD=""
+```
 
 ## Learn more
 
